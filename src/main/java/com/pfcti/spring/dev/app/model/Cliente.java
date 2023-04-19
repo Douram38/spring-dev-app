@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
 @Entity
 @Getter
 @Setter
@@ -21,7 +22,8 @@ public class Cliente {
     @Column (name="Telefono")
     private String Telefono;
 
-    @OneToMany(mappedBy = "cliente")
+    @OneToMany(mappedBy = "cliente") // cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+
     private List<Direccion> direcciones;
 
 }
