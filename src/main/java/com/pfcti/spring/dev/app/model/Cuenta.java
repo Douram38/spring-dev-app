@@ -12,7 +12,6 @@ public class Cuenta {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-
     private String numero;
     private String tipo;
     @ManyToOne

@@ -21,4 +21,7 @@ public class Cliente {
     @Column (name="Telefono")
     private String Telefono;
 
+    @OneToMany(mappedBy = "cliente")
+    private List<Direccion> direcciones;
+
 }
