@@ -7,6 +7,8 @@ import com.pfcti.spring.dev.app.repository.ClienteRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @AllArgsConstructor
 public class ClienteService {
@@ -16,46 +18,44 @@ public class ClienteService {
 
 
     public void insertarCliente(ClienteDto clienteDto) {
-
         Cliente cliente = new Cliente();
-        cliente.setNombre(clienteDto.getNombre());
         cliente.setApellidos(clienteDto.getApellidos());
+        cliente.setNombre(clienteDto.getNombre());
         cliente.setCedula(clienteDto.getCedula());
-        cliente.setTelefono(cliente.getTelefono());
+        cliente.setTelefono(clienteDto.getTelefono());
         clienteRepository.save(cliente);
     }
 
-   public ClienteDto obtenerCliente(int clienID){
+    public ClienteDto obtenerCliente(int clienteId) {
+        Cliente cliente = clienteRepository.findById(clienteId)
+                .orElseThrow(() -> {
+                            throw new RuntimeException("Cliente no existe");
+                        }
+                );
 
-       Cliente cliente= clienteRepository.findById(clienID).orElseThrow(
-               () ->
-               {
-                   throw new RuntimeException("Cliente no existe");
+        ClienteDto clienteDto = new ClienteDto();
+        clienteDto.setTelefono(cliente.getTelefono());
+        clienteDto.setId(cliente.getId());
+        clienteDto.setApellidos(cliente.getApellidos());
+        clienteDto.setNombre(cliente.getNombre());
+        clienteDto.setTelefono(cliente.getTelefono());
 
-               }
-       );
-       ClienteDto clienteDto = new ClienteDto();
-       clienteDto.setId(cliente.getId());
-       clienteDto.setNombre(cliente.getNombre());
-       clienteDto.setApellidos(cliente.getApellidos());
-       clienteDto.setCedula(cliente.getCedula());
-       cliente.setTelefono(cliente.getTelefono());
         return clienteDto;
+    }
 
+    public void actualizarCliente(ClienteDto clienteDto) {
+        Cliente cliente = new Cliente();
+        cliente.setCedula(clienteDto.getCedula());
+        cliente.setId(clienteDto.getId());
+        cliente.setTelefono(cliente.getTelefono());
+        cliente.setApellidos(cliente.getApellidos());
+        cliente.setNombre(cliente.getNombre());
 
-   }
+        clienteRepository.save(cliente);
+    }
 
-   public void  actualizarCliente(ClienteDto clientedto){
-         ClienteDto clienteDtoInicial= clienteService.obtenerCliente(clientedto.getId());
-            Cliente cliente = new Cliente();
-            cliente.setNombre(clienteDtoInicial.getNombre());
-            cliente.setApellidos(clienteDtoInicial.getApellidos());
-            cliente.setCedula(clienteDtoInicial.getCedula());
-            cliente.setTelefono(clienteDtoInicial.getTelefono());
-            clienteRepository.save(cliente);
-
-            System.out.println("El cliente fue actualizado de forma exitosa");
-
-   }
+    public List<Cliente> obtenerClientes() {
+        return clienteRepository.findAll();
+    }
 
 }
