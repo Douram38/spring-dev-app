@@ -3,6 +3,7 @@ package com.pfcti.spring.dev.app.repository;
 import com.pfcti.spring.dev.app.model.Cliente;
 import jakarta.persistence.Tuple;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
@@ -18,5 +19,9 @@ public interface ClienteRepository extends JpaRepository<Cliente,Integer> {
     List<Tuple> buscarPorApellidosQueryNativo(String apellidos);
 
     List<Cliente> findClienteByApellidos(String apellidos);
+
+    @Modifying
+    @Query(value = "update Cliente c set c.nombre =:nombre where c.apellidos =:apellidos", nativeQuery = true)
+    void updateClienteQuery(String nombre, String apellidos);
 
 }

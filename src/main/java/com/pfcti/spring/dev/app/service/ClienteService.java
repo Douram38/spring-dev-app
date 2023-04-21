@@ -132,5 +132,11 @@ public class ClienteService {
         return  clienteDtos;
     }
 
+    public void updateClienteQuery(String nombre, String apellidos){
+
+        clienteRepository.updateClienteQuery(nombre,apellidos);
+
+    }
+
 
 }

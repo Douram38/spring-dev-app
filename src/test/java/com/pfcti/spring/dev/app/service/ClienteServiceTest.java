@@ -101,4 +101,16 @@ class ClienteServiceTest {
         assertEquals(1,1);
 
     }
+
+    @Test
+    void updateClienteQuery() {
+        ClienteDto clienteDtoOriginal = clienteService.buscarPorApellidos("PEREZ").get(0);
+        System.out.println("Nombre original:" + clienteDtoOriginal.getNombre());
+        clienteService.updateClienteQuery("CAMBIADO EL NOMBRE","PEREZ");
+        ClienteDto clienteDtoCambiado = clienteService.buscarPorApellidos("PEREZ").get(0);
+        System.out.println("NOMBRE CAMBIADO  :" + clienteDtoCambiado.getNombre());
+        assertNotEquals(clienteDtoOriginal, clienteDtoCambiado);
+
+    }
+
 }
