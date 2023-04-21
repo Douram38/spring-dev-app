@@ -4,19 +4,17 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-
-@Entity
 @Getter
 @Setter
+@Entity
 public class Inversion {
     @Id
-    @GeneratedValue(strategy =  GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String numero;
-    private String  nomenclatura;
+    private String tipo;
 
     @ManyToOne
-    @JoinColumn(name="cliente_id",referencedColumnName = "id")
+    @JoinColumn(name = "cliente_id", referencedColumnName = "id")
     private Cliente cliente;
-
 }

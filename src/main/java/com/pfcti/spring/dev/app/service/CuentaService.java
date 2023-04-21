@@ -1,4 +1,4 @@
-package com.pfcti.spring.dev.app.services;
+package com.pfcti.spring.dev.app.service;
 
 import com.pfcti.spring.dev.app.repository.CuentaRepository;
 import lombok.AllArgsConstructor;
