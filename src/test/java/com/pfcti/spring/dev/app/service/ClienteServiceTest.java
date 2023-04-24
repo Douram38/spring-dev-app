@@ -90,15 +90,19 @@ class ClienteServiceTest {
     @Test
     void buscarPorApellidos() {
         List<ClienteDto> clienteDtos = clienteService.buscarPorApellidos("PEREZ");
-        clienteDtos.forEach(clienteDto -> {System.out.println("Cliente: " + clienteDto.getApellidos());});
-        assertEquals(1,1);
+        clienteDtos.forEach(clienteDto -> {
+            System.out.println("Cliente: " + clienteDto.getApellidos());
+        });
+        assertEquals(1, 1);
     }
 
     @Test
     void buscarApellidosQueryNativo() {
         List<ClienteDto> clienteDtos = clienteService.buscarPorApellidos("Perez");
-        clienteDtos.forEach(clienteDto -> {System.out.println("Cliente: " + clienteDto.getApellidos());});
-        assertEquals(1,1);
+        clienteDtos.forEach(clienteDto -> {
+            System.out.println("Cliente: " + clienteDto.getApellidos());
+        });
+        assertEquals(1, 1);
 
     }
 
@@ -113,4 +117,15 @@ class ClienteServiceTest {
 
     }
 
+    @Test
+    void testObtenerClientesPorCodigoISOPaisYCuentasActivas() {
+
+        List<ClienteDto> clientesDto =
+                clienteService.obtenerClientesPorCodigoISOPaisYCuentasActivas("CR");
+        clientesDto.forEach(clienteDto -> {
+            System.out.println("Cuentas Activas" +
+                    clienteDto);
+        });
+        assertEquals(1, clientesDto.size());
+    }
 }

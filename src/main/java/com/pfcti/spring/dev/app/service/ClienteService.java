@@ -14,7 +14,9 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -90,7 +92,7 @@ public class ClienteService {
         return clienteReturn;
     }
 
-    public List<ClienteDto> obtenerClientesPorCodigoISOPaisYCuentasActivas(String codigoISO){
+    /*public List<ClienteDto> obtenerClientesPorCodigoISOPaisYCuentasActivas(String codigoISO){
         List<Cliente> clientes = clienteRepository.findClientesByPaisAndCuentas_ActivaIsTrue(codigoISO);
         List<ClienteDto> clientesDto = new ArrayList<>();
 
@@ -99,7 +101,7 @@ public class ClienteService {
         });
 
         return clientesDto;
-    }
+    }*/
 
     public void eliminarCliente(Integer clienteId){
         direccionRepository.deleteAllByCliente_Id(clienteId);
@@ -137,6 +139,33 @@ public class ClienteService {
         clienteRepository.updateClienteQuery(nombre,apellidos);
 
     }
+
+
+    public List<ClienteDto> obtenerClientesPorCodigoISOPaisYCuentasActivas(String codigoISOPais){
+        List<ClienteDto> resultadoClientesDto = new ArrayList<>();
+        List<Cliente> clientes = clienteRepository.findClientesByPaisNacimientoAndCuentas_EstadoIsTrue(codigoISOPais);
+        ClienteDto clienteDto = new ClienteDto();
+        clientes.forEach(cliente -> {
+            clienteDto.setId(cliente.getId());
+            clienteDto.setApellidos(cliente.getApellidos());
+            clienteDto.setNombre(cliente.getNombre());
+            clienteDto.setCedula(cliente.getCedula());
+            clienteDto.setPais(cliente.getPais());
+            resultadoClientesDto.add(clienteDto);
+        });
+        return resultadoClientesDto;
+    }
+
+    public List<ClienteDto> obtenerClientesExtranjerosYTarjetasInactivas(String codigoISO){
+        return clienteRepository.findClientesByPaisNotAndTarjetas_ActivaIsFalse(codigoISO)
+                .stream()
+                .map(this::fromClienteToClienteDto)
+                .collect(Collectors.toList());
+
+
+    }
+
+
 
 
 }

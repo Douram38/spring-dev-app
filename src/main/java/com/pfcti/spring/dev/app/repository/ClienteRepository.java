@@ -24,4 +24,12 @@ public interface ClienteRepository extends JpaRepository<Cliente,Integer> {
     @Query(value = "update Cliente c set c.nombre =:nombre where c.apellidos =:apellidos", nativeQuery = true)
     void updateClienteQuery(String nombre, String apellidos);
 
+
+
+    @Query ( value="select c.nombre, c.apellidos, c.cedula, c.telefono from TCLIENTE where c.pais :=paisNacimiento", nativeQuery = true)
+    List<Cliente> findClientesByPaisNacimientoAndCuentas_EstadoIsTrue(String paisNacimiento);
+
+
+    List<Cliente> findClientesByPaisNotAndTarjetas_ActivaIsFalse(String pais);
+
 }
