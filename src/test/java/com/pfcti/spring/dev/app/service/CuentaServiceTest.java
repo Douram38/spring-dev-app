@@ -14,10 +14,10 @@ import static org.junit.jupiter.api.Assertions.*;
 
     @Autowired
     private CuentaService cuentaService;
-    @Test
-    void buscarDinamicamentePorCriterios() {
+    //@Test
+   /* void buscarDinamicamentePorCriterios() {
 
-        List<CuentaDto> cuentaDtos = cuentaService.buscarDinamicamentePorCriterios(new CuentaDto());
+       //  List<CuentaDto> cuentaDtos = cuentaService.buscarDinamicamentePorCriterios(new CuentaDto());
 
         assertFalse(cuentaDtos.isEmpty());
         cuentaDtos.forEach(cliente -> System.out.println(">>>>> CUENTA EXISTENTE filtro 1: " + cliente.getTipo() + " " + cliente.getNumero() + " - Estado "+ cliente.getActiva() ));
@@ -25,11 +25,11 @@ import static org.junit.jupiter.api.Assertions.*;
 
         CuentaDto cuentaDto = new CuentaDto();
         cuentaDto.setActiva(false);
-        cuentaDtos = cuentaService.buscarDinamicamentePorCriterios(cuentaDto);
+      //  cuentaDtos = cuentaService.buscarDinamicamentePorCriterios(cuentaDto);
 
         assertFalse(cuentaDtos.isEmpty());
         cuentaDtos.forEach(cliente -> System.out.println(">>>>> CUENTA EXISTENTE filtro 2: " + cliente.getTipo() + " " + cliente.getNumero() + " - Estado "+ cliente.getActiva() ));
         assertTrue(cuentaDtos.size() >= 1);
 
-    }
+    }*/
 }

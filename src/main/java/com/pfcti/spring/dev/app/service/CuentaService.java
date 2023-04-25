@@ -25,14 +25,14 @@ public class CuentaService {
         BeanUtils.copyProperties(cuenta, cuentaDto);
         return cuentaDto;
     }
-    public List<CuentaDto> buscarDinamicamentePorCriterios(CuentaDto cuentaDtoFilter){
+  /*  public List<CuentaDto> buscarDinamicamentePorCriterios(CuentaDto cuentaDtoFilter){
         return cuentaRepository
                 .findAll(cuentaSpecification.buildFilter(cuentaDtoFilter))
                 
                 .stream()
                 .map(this::fromCuentaToCuentaDto)
                 .collect(Collectors.toList());
-    }
+    }*/
 
 
 }
