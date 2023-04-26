@@ -31,10 +31,5 @@ class CuentaServiceTest {
         cuentaDtos.forEach(cliente -> System.out.println(">>>>> CUENTA EXISTENTE filtro 2: " + cliente.getTipo() + " " + cliente.getNumero() + " - Estado "+ cliente.getActiva() ));
         assertTrue(cuentaDtos.size() >= 1);
 
-//        ClienteDto clienteDto = new ClienteDto();
-//        clienteDto.setApellidos("SANCHEZ");
-//        cuentaDtos = cuentaService.buscarDinamicamentePorCriterios(CuentaDto);
-//        cuentaDtos.forEach(cliente -> System.out.println(">>>>> CLIENTE EXISTENTE CON FILTRO: " + cliente.getApellidos()));
-//        assertTrue(cuentaDtos.size() >= 4);
     }
 }

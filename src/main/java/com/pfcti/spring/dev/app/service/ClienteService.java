@@ -27,7 +27,7 @@ public class ClienteService {
 
     private ClienteSpecification clienteSpecification;
 
-    public void insertarCliente(ClienteDto clienteDto){
+    public void insertarCliente(ClienteDto clienteDto) {
         Cliente cliente = new Cliente();
         cliente.setNombre(clienteDto.getNombre());
         cliente.setApellidos(clienteDto.getApellidos());
@@ -41,9 +41,9 @@ public class ClienteService {
     //     clienteRepository.findById(id);
     // }
 
-    public ClienteDto obtenerCliente(int clienteId){
+    public ClienteDto obtenerCliente(int clienteId) {
         Cliente cliente = clienteRepository.findById(clienteId)
-                .orElseThrow(() ->{
+                .orElseThrow(() -> {
                     throw new RuntimeException("Cliente No existe");
                 });
 
@@ -57,10 +57,10 @@ public class ClienteService {
         return clienteDto;
     }
 
-    public void actualizarCliente(ClienteDto clienteDto){
+    public void actualizarCliente(ClienteDto clienteDto) {
 
         Cliente cliente = clienteRepository.findById(clienteDto.getId())
-                .orElseThrow(() ->{
+                .orElseThrow(() -> {
                     throw new RuntimeException("Cliente No existe");
                 });
 
@@ -73,7 +73,7 @@ public class ClienteService {
         clienteRepository.save(cliente);
     }
 
-    private ClienteDto fromClienteToClienteDto(Cliente cliente){
+    private ClienteDto fromClienteToClienteDto(Cliente cliente) {
         ClienteDto clienteDto = new ClienteDto();
         BeanUtils.copyProperties(cliente, clienteDto);
         /*clienteDto.setId(cliente.getId());*/
@@ -85,28 +85,28 @@ public class ClienteService {
         return clienteDto;
     }
 
-    public List<ClienteDto> obtenerClientes(){
-        List<ClienteDto>  clienteReturn = new ArrayList<>();
+    public List<ClienteDto> obtenerClientes() {
+        List<ClienteDto> clienteReturn = new ArrayList<>();
         List<Cliente> clientes = clienteRepository.findAll();
-        clientes.forEach( cliente ->{
-            clienteReturn.add(fromClienteToClienteDto(cliente));
+        clientes.forEach(cliente -> {
+                    clienteReturn.add(fromClienteToClienteDto(cliente));
                 }
         );
         return clienteReturn;
     }
 
-    public List<ClienteDto> obtenerClientesPorCodigoISOPaisYCuentasActivas(String codigoISO){
+    public List<ClienteDto> obtenerClientesPorCodigoISOPaisYCuentasActivas(String codigoISO) {
         List<Cliente> clientes = clienteRepository.findClientesByPaisAndCuentas_ActivaIsTrue(codigoISO);
         List<ClienteDto> clientesDto = new ArrayList<>();
 
-        clientes.forEach(cliente ->{
+        clientes.forEach(cliente -> {
             clientesDto.add(fromClienteToClienteDto(cliente));
         });
 
         return clientesDto;
     }
 
-    public void eliminarCliente(Integer clienteId){
+    public void eliminarCliente(Integer clienteId) {
         tarjetaRepository.deleteAllByCliente_Id(clienteId);
         inversionRepository.deleteAllByCliente_Id(clienteId);
         direccionRepository.deleteAllByCliente_Id(clienteId);
@@ -114,38 +114,38 @@ public class ClienteService {
         clienteRepository.deleteById(clienteId);
     }
 
-    public List<ClienteDto> buscarPorApellidos(String apellidos){
+    public List<ClienteDto> buscarPorApellidos(String apellidos) {
         List<ClienteDto> clientesDtos = new ArrayList<>();
         List<Cliente> clientes = clienteRepository.buscarPorApellidos(apellidos);
-        clientes.forEach(cliente ->{
+        clientes.forEach(cliente -> {
             clientesDtos.add(fromClienteToClienteDto(cliente));
         });
 
         return clientesDtos;
     }
 
-    public List<ClienteDto> buscarPorApellidosNative(String apellidos){
+    public List<ClienteDto> buscarPorApellidosNative(String apellidos) {
         List<ClienteDto> clientesDtos = new ArrayList<>();
         List<Tuple> tuplas = clienteRepository.buscarPorApellidosNative(apellidos);
-        tuplas.forEach(tupla ->{
+        tuplas.forEach(tupla -> {
             ClienteDto clienteDto = new ClienteDto();
-            clienteDto.setId((Integer)tupla.get("Id"));
+            clienteDto.setId((Integer) tupla.get("Id"));
             clienteDto.setNombre((String) tupla.get("nombre"));
             clienteDto.setApellidos((String) tupla.get("apellidos"));
             clienteDto.setCedula((String) tupla.get("cedula"));
             clienteDto.setTelefono((String) tupla.get("telefono"));
-            clienteDto.setPais((String)tupla.get("pais"));
+            clienteDto.setPais((String) tupla.get("pais"));
             clientesDtos.add(clienteDto);
         });
 
         return clientesDtos;
     }
 
-    public void actualizarNombrePorApellido(String nombre, String apellidos){
+    public void actualizarNombrePorApellido(String nombre, String apellidos) {
         clienteRepository.updateClienteByQuery(nombre, apellidos);
     }
 
-    public List<ClienteDto> buscarClientePorApellidosyNombre (String apellidos, String nombre){
+    public List<ClienteDto> buscarClientePorApellidosyNombre(String apellidos, String nombre) {
         return clienteRepository.findClientesByApellidosAndNombre(apellidos, nombre)
                 .stream()
                 .map(this::fromClienteToClienteDto)
@@ -153,7 +153,7 @@ public class ClienteService {
     }
 
 
-    public List<ClienteDto> obtenerClientesExtranjerosYTarjetasInactivas(String codigoISO){
+    public List<ClienteDto> obtenerClientesExtranjerosYTarjetasInactivas(String codigoISO) {
         return clienteRepository.findClientesByPaisNotAndTarjetas_ActivaIsFalse(codigoISO)
                 .stream()
                 .map(this::fromClienteToClienteDto)
@@ -172,12 +172,28 @@ public class ClienteService {
 
     }
 
-    public List<ClienteDto> buscarDinamicamentePorCriterios(ClienteDto clienteDtoFilter){
+    public List<ClienteDto> buscarDinamicamentePorCriterios(ClienteDto clienteDtoFilter) {
         return clienteRepository
                 .findAll(clienteSpecification.buildFilter(clienteDtoFilter))
                 .stream()
                 .map(this::fromClienteToClienteDto)
                 .collect(Collectors.toList());
+    }
+
+
+    public io.spring.guides.gs_producing_web_service.Cliente obtenerClienteSoap(int idCliente) {
+        Cliente cliente = clienteRepository.findById(idCliente)
+                .orElseThrow(() -> {
+                    throw new RuntimeException("Cliente No Existe");
+                });
+        io.spring.guides.gs_producing_web_service.Cliente clienteWs = new io.spring.guides.gs_producing_web_service.Cliente();
+        clienteWs.setId(cliente.getId());
+        clienteWs.setApellidos(cliente.getApellidos());
+        clienteWs.setNombre(cliente.getNombre());
+        clienteWs.setCedula(cliente.getCedula());
+        clienteWs.setTelefono(cliente.getTelefono());
+        clienteWs(cliente.getPaisNacimiento());
+        return clienteWs;
     }
 
 }
