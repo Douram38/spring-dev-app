@@ -7,6 +7,7 @@ import com.pfcti.spring.dev.app.dto.CuentaDto;
 import com.pfcti.spring.dev.app.model.Cliente;
 import com.pfcti.spring.dev.app.model.Cuenta;
 import com.pfcti.spring.dev.app.repository.CuentaRepository;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -15,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Transactional
 @Service
 @AllArgsConstructor
 public class CuentaService {
@@ -46,18 +48,11 @@ public class CuentaService {
         return cuentaReturn;
     }
 
+    public void updateCuentaEstadoByNumeroQuery(String numero){
 
-   public List<CuentaDto> buscarCuentasPorIdCliente(String ClientId){
-       List<CuentaDto>  cuentaReturn = new ArrayList<>();
-       List<Cuenta> cuentas = cuentaRepository.buscarCuentasPorIdCliente(ClientId);
-       cuentas.forEach( cuenta ->{
-           cuentaReturn.add(fromCuentaToCcuentaDto(cuenta));
-               }
-       );
-       return cuentaReturn;
+        cuentaRepository.updateCuentaEstadoByNumeroQuery(numero, false);
+    }
 
-
-   }
 
     private CuentaDto fromCuentaToCcuentaDto(Cuenta cuenta){
         CuentaDto cuentaDto = new CuentaDto();
@@ -65,6 +60,31 @@ public class CuentaService {
 
         return cuentaDto;
     }
+
+
+    public List<CuentaDto>findCuentaByCliente_Id (int id){
+        List<CuentaDto> cuentaDtos = new ArrayList<>();
+        List<Cuenta> cuentas =  cuentaRepository.findCuentaByCliente_Id(id);
+        cuentas.forEach(cuenta -> {
+            cuentaDtos.add(fromCuentaToCuentaDto(cuenta));
+        });
+        return cuentaDtos;
+    }
+
+    public void insertarCuenta(CuentaDto cuentaDto) {
+        Cliente cliente= new Cliente();
+        cliente.setId(cuentaDto.getClienteId());
+        Cuenta cuenta = new Cuenta();
+        //cuenta.setId(cuentaDto.getId());
+        cuenta.setTipo(cuentaDto.getTipo());
+        cuenta.setNumero(cuentaDto.getNumero());
+        cuenta.setCliente(cliente);
+        cuenta.setActiva(cuentaDto.getActiva());
+
+        cuentaRepository.save(cuenta);
+    }
+
+
 
 
 

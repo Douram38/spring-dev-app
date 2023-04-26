@@ -110,7 +110,7 @@ public class ClienteService {
         tarjetaRepository.deleteAllByCliente_Id(clienteId);
         inversionRepository.deleteAllByCliente_Id(clienteId);
         direccionRepository.deleteAllByCliente_Id(clienteId);
-        cuentaRepository.deleteAllByCliente_Id(clienteId);
+        //cuentaRepository.deleteAllByCliente_Id(clienteId);
         clienteRepository.deleteById(clienteId);
     }
 
