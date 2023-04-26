@@ -89,7 +89,7 @@ public class ClienteService {
         List<ClienteDto>  clienteReturn = new ArrayList<>();
         List<Cliente> clientes = clienteRepository.findAll();
         clientes.forEach( cliente ->{
-                    clienteReturn.add(fromClienteToClienteDto(cliente));
+            clienteReturn.add(fromClienteToClienteDto(cliente));
                 }
         );
         return clienteReturn;
@@ -159,6 +159,16 @@ public class ClienteService {
                 .map(this::fromClienteToClienteDto)
                 .collect(Collectors.toList());
 
+        //List<Cliente> clientes = clienteRepository.buscarClientesExtranjerosPorEstadoTarjeta(codigoISO);
+
+//        List<Cliente> clientes = clienteRepository.findClientesByPaisNotAndTarjetas_ActivaIsFalse(codigoISO);
+//        List<ClienteDto> clientesDto = new ArrayList<>();
+//
+//        clientes.forEach(cliente ->{
+//            clientesDto.add(fromClienteToClienteDto(cliente));
+//        });
+//
+//        return clientesDto;
 
     }
 

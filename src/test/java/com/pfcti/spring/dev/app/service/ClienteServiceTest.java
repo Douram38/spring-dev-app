@@ -76,7 +76,7 @@ class ClienteServiceTest {
 
     @Test
     void obtenerClientesPorCodigoISOPaisYCuentasActivas() {
-        List<ClienteDto> clienteDtos = clienteService.obtenerClientesPorCodigoISOPaisYCuentasActivas("CRC");
+        List<ClienteDto> clienteDtos = clienteService.obtenerClientesPorCodigoISOPaisYCuentasActivas("EC");
         clienteDtos.forEach(clienteDto -> {System.out.println("Cliente: " + clienteDto.getApellidos());});
         assertEquals(1, clienteDtos.size());
     }
@@ -89,43 +89,81 @@ class ClienteServiceTest {
 
     @Test
     void buscarPorApellidos() {
-        List<ClienteDto> clienteDtos = clienteService.buscarPorApellidos("PEREZ");
-        clienteDtos.forEach(clienteDto -> {
-            System.out.println("Cliente: " + clienteDto.getApellidos());
-        });
-        assertEquals(1, 1);
+        List<ClienteDto> clientesDto = clienteService.buscarPorApellidos("PEREZ");
+        clientesDto.forEach(clienteDto -> {System.out.println("Cliente: " + clienteDto.getApellidos());});
+        assertEquals(1,clientesDto.size());
     }
 
     @Test
-    void buscarApellidosQueryNativo() {
-        List<ClienteDto> clienteDtos = clienteService.buscarPorApellidos("Perez");
-        clienteDtos.forEach(clienteDto -> {
-            System.out.println("Cliente: " + clienteDto.getApellidos());
-        });
-        assertEquals(1, 1);
-
+    void buscarPorApellidosNative() {
+        List<ClienteDto> clientesDto = clienteService.buscarPorApellidosNative("PEREZ");
+        clientesDto.forEach(clienteDto -> {System.out.println("Cliente: " + clienteDto.getApellidos());});
+        assertEquals(1,clientesDto.size());
     }
 
     @Test
-    void updateClienteQuery() {
-        ClienteDto clienteDtoOriginal = clienteService.buscarPorApellidos("PEREZ").get(0);
-        System.out.println("Nombre original:" + clienteDtoOriginal.getNombre());
-        //clienteService.updateClienteQuery("CAMBIADO EL NOMBRE","PEREZ");
-        ClienteDto clienteDtoCambiado = clienteService.buscarPorApellidos("PEREZ").get(0);
-        System.out.println("NOMBRE CAMBIADO  :" + clienteDtoCambiado.getNombre());
-        assertNotEquals(clienteDtoOriginal, clienteDtoCambiado);
+    void actualizarNombrePorApellido() {
+        ClienteDto clienteDtoInicial = clienteService.buscarPorApellidos("SANCHEZ").get(0);
+        System.out.println("El cliente inicial es " + clienteDtoInicial.getNombre() + " "+ clienteDtoInicial.getApellidos());
 
+        clienteService.actualizarNombrePorApellido("nuevoNombre",clienteDtoInicial.getApellidos());
+
+        ClienteDto clienteDtoFinal = clienteService.buscarPorApellidos("SANCHEZ").get(0);
+        System.out.println("El cliente modificado es " + clienteDtoFinal.getNombre() + " "+ clienteDtoFinal.getApellidos());
+
+        assertNotEquals(clienteDtoInicial.getNombre(),clienteDtoFinal.getNombre());
     }
 
     @Test
-    void testObtenerClientesPorCodigoISOPaisYCuentasActivas() {
+    void buscarClientePorApellidosyNombre() {
+        List<ClienteDto> clienteDtos = clienteService.buscarClientePorApellidosyNombre("SANCHEZ","RAUL");
+        System.out.println("CLIENTE ENCONTRADO "+ clienteDtos.get(0).getApellidos());
+        assertFalse(clienteDtos.isEmpty());
+        assertEquals("SANCHEZ",clienteDtos.get(0).getApellidos());
+    }
 
-        List<ClienteDto> clientesDto =
-                clienteService.obtenerClientesPorCodigoISOPaisYCuentasActivas("CR");
-        clientesDto.forEach(clienteDto -> {
-            System.out.println("Cuentas Activas" +
-                    clienteDto);
-        });
-        assertEquals(1, clientesDto.size());
+    @Test
+    void obtenerClientesExtranjerosYCuentasInactivas() {
+        List<ClienteDto> clienteDtos = clienteService.obtenerClientesExtranjerosYTarjetasInactivas("CR");
+        clienteDtos.forEach(clienteDto -> {System.out.println("Cliente: " + clienteDto.getApellidos());});
+        assertEquals(1, clienteDtos.size());
+    }
+
+    @Test
+    void buscarDinamicamentePorCriterios() {
+        List<ClienteDto> clienteDtos = clienteService.buscarDinamicamentePorCriterios(new ClienteDto());
+        assertFalse(clienteDtos.isEmpty());
+        clienteDtos.forEach(cliente -> System.out.println(">>>>> CLIENTE EXISTENTE: " + cliente.getApellidos()));
+        assertTrue(clienteDtos.size() >=2);
+
+        ClienteDto clienteDto = new ClienteDto();
+        clienteDto.setApellidos("SANCHEZ");
+        clienteDtos = clienteService.buscarDinamicamentePorCriterios(clienteDto);
+        clienteDtos.forEach(cliente -> System.out.println(">>>>> CLIENTE EXISTENTE CON FILTRO: " + cliente.getApellidos()));
+        assertTrue(clienteDtos.size() >=4 );
+
+        clienteDto = new ClienteDto();
+        clienteDto.setApellidos("SANCHEZ");
+        clienteDto.setNombre("DAM");
+        clienteDtos = clienteService.buscarDinamicamentePorCriterios(clienteDto);
+        clienteDtos.forEach(cliente -> System.out.println(">>>>> CLIENTE EXISTENTE CON FILTRO 2: " + cliente.getApellidos()));
+        assertTrue(clienteDtos.size() >=2 );
+
+        clienteDto = new ClienteDto();
+        clienteDto.setApellidos("SANCHEZ");
+        clienteDto.setCedula("111");
+        clienteDtos = clienteService.buscarDinamicamentePorCriterios(clienteDto);
+        clienteDtos.forEach(cliente -> System.out.println(">>>>> CLIENTE EXISTENTE CON FILTRO 3: " + cliente.getApellidos()));
+        assertTrue(clienteDtos.size() >=2 );
+
+        clienteDto = new ClienteDto();
+        clienteDto.setCedula("111");
+        clienteDto.setApellidos("SANCHEZ C");
+        clienteDto.setNombre("DAM");
+        clienteDtos = clienteService.buscarDinamicamentePorCriterios(clienteDto);
+        clienteDtos.forEach(cliente -> System.out.println(">>>>> CLIENTE EXISTENTE CON FILTRO 4: " + cliente.getApellidos()));
+        assertTrue(clienteDtos.size() >=1 );
+
+
     }
 }

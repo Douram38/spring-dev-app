@@ -1,6 +1,5 @@
 package com.pfcti.spring.dev.app.beans.config;
 
-
 import com.pfcti.spring.dev.app.beans.AdministradorClientes;
 import com.pfcti.spring.dev.app.dto.enums.ClienteQueryType;
 import com.pfcti.spring.dev.app.repository.ClienteRepository;
@@ -17,20 +16,25 @@ public class BeanConfiguration {
     @Autowired
     private ClienteRepository clienteRepository;
 
-    @Bean({"defaultCedula", "criterioCedula"})
-    @Scope (ConfigurableBeanFactory.SCOPE_SINGLETON)
+    @Bean({"defaultCedula","criterioCedula"})
+    @Scope(ConfigurableBeanFactory.SCOPE_SINGLETON)
     @Lazy
-    public AdministradorClientes administradorClientesBean() {
+    public AdministradorClientes administradorClientesByCedula(){
+
         return new AdministradorClientes(clienteRepository, ClienteQueryType.CEDULA);
     }
 
     @Bean({"defaultNombres"})
-    @Scope (ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+    @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
     @Lazy
-    public AdministradorClientes administradorClientesByNombre() {
-        return new AdministradorClientes(clienteRepository, ClienteQueryType.NOMBRES);
+    public AdministradorClientes administradorClientesByNombre(){
+        return new AdministradorClientes(clienteRepository, ClienteQueryType.CEDULA);
     }
 
-
-
+    @Bean({"defaultNombresSingleton"})
+    @Scope(ConfigurableBeanFactory.SCOPE_SINGLETON)
+    @Lazy
+    public AdministradorClientes administradorClientesByNombreSingleton(){
+        return new AdministradorClientes(clienteRepository, ClienteQueryType.CEDULA);
+    }
 }

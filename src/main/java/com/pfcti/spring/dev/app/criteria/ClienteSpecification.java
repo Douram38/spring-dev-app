@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import java.text.MessageFormat;
 import java.util.Locale;
 
+@Component
 public class ClienteSpecification {
 
     public <T>Specification<T> equals(String fieldName, String fieldValue){
@@ -51,4 +52,7 @@ public class ClienteSpecification {
                 .and(cedulaCriteria(clienteDto))
                 .and(telefonoCriteria(clienteDto));
     }
+
+
+
 }

@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service("baseDeDatos")
-public class BuscadorClientesBdd implements BuscadorClientes{
+public class BuscadorClienteBDD implements BuscadorClientes{
 
     @Autowired
     ClienteRepository clienteRepository;
@@ -36,6 +36,11 @@ public class BuscadorClientesBdd implements BuscadorClientes{
     private ClienteDto fromClienteToClienteDto(Cliente cliente){
         ClienteDto clienteDto = new ClienteDto();
         BeanUtils.copyProperties(cliente, clienteDto);
+        /*clienteDto.setId(cliente.getId());*/
+        /*clienteDto.setNombre(cliente.getNombre());*/
+        /*clienteDto.setApellidos(cliente.getApellidos());*/
+        /*clienteDto.setCedula(cliente.getCedula());*/
+        /*clienteDto.setTelefono(cliente.getTelefono());*/
 
         return clienteDto;
     }

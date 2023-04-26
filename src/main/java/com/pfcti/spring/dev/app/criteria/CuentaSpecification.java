@@ -50,8 +50,8 @@ public class CuentaSpecification {
     public Specification<Cuenta> buildFilter(CuentaDto cuentaDto){
         System.out.println("Busqueda por criterios: "+ cuentaDto);
         return Specification
-                .where(numeroCriteria(cuentaDto))
-                .and(activaCriteria(cuentaDto))
-                .and(tipoCriterio(cuentaDto));
+                .where(tipoCriterio(cuentaDto))
+                .and(numeroCriteria(cuentaDto))
+                .and(activaCriteria(cuentaDto));
     }
 }

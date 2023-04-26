@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
 @SpringBootTest
-public class AdministradorClientesAsBeanTest {
+public class AdministradorDeClienteComoUnBeanTest {
 
     @Autowired
     private AdministradorClientes defaultNombres;

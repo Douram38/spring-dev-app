@@ -1,2 +1,2 @@
 # spring-dev-app
-Capacitación Spring 
+Ejercicios del curso de Java PFCTI Abril 2023

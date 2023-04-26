@@ -6,7 +6,5 @@ import com.pfcti.spring.dev.app.dto.ClienteQueryDto;
 import java.util.List;
 
 public interface BuscadorClientes {
-
     List<ClienteDto> obtenerListaClientes(ClienteQueryDto clienteQueryDto);
-
 }
