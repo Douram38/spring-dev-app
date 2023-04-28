@@ -63,6 +63,8 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web-services'
 	testImplementation 'io.projectreactor:reactor-test:3.2.3.RELEASE'
 	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb-reactive'
+	implementation 'org.springframework.boot:spring-boot-starter-artemis'
+	implementation 'org.apache.activemq:artemis-jakarta-server'
 
 	implementation 'wsdl4j:wsdl4j'
 	implementation 'com.h2database:h2'
