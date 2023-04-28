@@ -13,6 +13,7 @@ public class Cuenta {
     private int id;
     private String numero;
     private String tipo;
+    private String estado;
     private Boolean activa;
 
 
